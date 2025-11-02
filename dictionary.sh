@@ -1,7 +1,4 @@
 #!/bin/bash
-# 🌐 Simple Dictionary Tool (Enhanced UI Version)
-# Author: Hiten's Shell Dictionary
-# Description: Looks up word meanings locally and online with clean terminal UI.
 
 # 🎨 Colors
 GREEN="\033[1;32m"
@@ -112,7 +109,6 @@ fi
 echo ""
 loading
 
-# Try local first, then online
 if search_local "$WORD"; then
   exit 0
 elif search_online "$WORD"; then
