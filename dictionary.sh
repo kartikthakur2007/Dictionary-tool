@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# 🎨 Colors
+# Colors
 GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
 CYAN="\033[1;36m"
 RED="\033[1;31m"
 RESET="\033[0m"
 
-# 🧭 Function: Loading animation
+#  Function: Loading animation
 loading() {
   echo -ne "${CYAN}Searching"
   for i in {1..3}; do
@@ -17,15 +17,15 @@ loading() {
   echo -e "${RESET}"
 }
 
-# 🧾 Function: Display header
+# Function: Display header
 header() {
   clear
   echo -e "${YELLOW}=============================="
-  echo -e "   🧠 Simple Dictionary Tool"
+  echo -e "Simple Dictionary Tool"
   echo -e "==============================${RESET}"
 }
 
-# 📘 Function: Search local dictionary
+# Function: Search local dictionary
 search_local() {
   local word="$1"
   if [ -f "words.txt" ]; then
@@ -39,14 +39,14 @@ search_local() {
   return 1
 }
 
-# 🌐 Function: Search online
-# 🌐 Function: Search online (Improved API handling)
-# 🌐 Function: Search online (Universal JSON handling)
+# Function: Search online
+# Function: Search online (Improved API handling)
+# Function: Search online (Universal JSON handling)
 search_online() {
   local word="$1"
 
   if ! command -v curl >/dev/null 2>&1; then
-    echo -e "${RED}❌ curl not installed. Cannot fetch online meaning.${RESET}"
+    echo -e "${RED} curl not installed. Cannot fetch online meaning.${RESET}"
     return 1
   fi
 
@@ -56,7 +56,7 @@ search_online() {
 
   # If API says not found
   if echo "$response" | grep -q '"title": "No Definitions Found"'; then
-    echo -e "${RED}❌ No definition found online for '${word}'.${RESET}"
+    echo -e "${RED} No definition found online for '${word}'.${RESET}"
     return 1
   fi
 
@@ -76,7 +76,7 @@ search_online() {
       echo "$word: $meaning" >> words.txt
       return 0
     else
-      echo -e "${RED}❌ No valid definition field found for '${word}'.${RESET}"
+      echo -e "${RED} No valid definition field found for '${word}'.${RESET}"
     fi
   else
     echo -e "${CYAN}Raw response:${RESET}"
@@ -85,13 +85,13 @@ search_online() {
 
   return 1
 }
-# 📝 Function: Add word to local dictionary
+# Function: Add word to local dictionary
 if ! grep -iq "^$word:" words.txt; then
   echo "$word: $meaning" >> words.txt
 fi
 
 
-# 🚀 Main Script
+# Main Script
 header
 
 # Take word as argument or ask user
@@ -114,12 +114,12 @@ if search_local "$WORD"; then
 elif search_online "$WORD"; then
   exit 0
 else
-  echo -e "${RED}❌ No definition found for '$WORD'.${RESET}"
+  echo -e "${RED} No definition found for '$WORD'.${RESET}"
   read -rp "➕ Add your own meaning? (y/n): " choice
   if [[ "$choice" =~ ^[Yy]$ ]]; then
     read -rp "Enter your meaning: " meaning
     echo "$WORD: $meaning" >> words.txt
-    echo -e "${GREEN}✅ Saved to local dictionary!${RESET}"
+    echo -e "${GREEN} Saved to local dictionary!${RESET}"
   else
     echo -e "${YELLOW}Tip:${RESET} Try checking your internet or adding it manually to words.txt"
   fi
